@@ -1,8 +1,6 @@
 FROM node:16-alpine AS build
 WORKDIR /usr/app
-COPY . /usr/app/
-RUN npm install
-RUN npx create-react-app my-app
+COPY /my-app /usr/app/
 WORKDIR /usr/app/my-app
 CMD ["npm", "start"]
 RUN npm run build
