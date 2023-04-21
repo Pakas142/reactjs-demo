@@ -1,2 +1,2 @@
 docker compose up -d
-dopcker ps
+docker ps
