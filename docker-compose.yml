@@ -1,0 +1,7 @@
+version: "3"
+services:
+  reactjs:
+    image: reactjs:v1
+    container_name: reactjs
+    ports:
+      - "80:80"
