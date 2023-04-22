@@ -1,0 +1,32 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/master'], [name: '*/dev']],
+                    doGenerateSubmoduleConfigurations: false,
+                    extensions: [],
+                    submoduleCfg: [],
+                    userRemoteConfigs: [[url: 'https://github.com/Pakas142/reactjs-demo.git']]
+                ])
+            }
+        }
+        
+        stage('Build - master ') {
+            when {
+                    branch 'master'
+            }
+            steps {
+                sh 'chmod +x build.sh'
+				sh './build.sh'
+				sh 'docker image tag reactjs:$docker_tag pakas142/prod:latest'
+				sh 'docker login -u $dockercr'
+                sh 'docker push pakas142/prod:latest'
+				sh 'echo docker image sucessfully pushed to prod repo'
+            }
+        }
+	}
+}
